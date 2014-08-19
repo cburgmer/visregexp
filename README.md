@@ -14,7 +14,7 @@ Technical decisions
 
 Yet to be implemented
 ---------------------
-- Take screenshot and save
+- Take screenshot and save ✓
 - Compare to reference and fail/succeed
 - Support hover, active styles
 - Configurable browser support
