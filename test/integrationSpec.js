@@ -6,57 +6,57 @@ var fs = require('fs'),
     visregexp = require('../index');
 
 describe("VisRegExp", function () {
+    var url, thingsToClose;
 
-    var arrayValueSet = function () {
-        return new SetCollection([], function (a, b) {
-            return a.length === b.length && a.filter(function (val, i) {
-                return val !== b[i];
-            }).length === 0;
-        }, function () { return ''; });
-    };
-
-    var collectColors = function (colorArray) {
-        var set = arrayValueSet(),
+    var collectColorsInRgbNotation = function (colorArray) {
+        var set = SetCollection(),
             i;
 
         for(i = 0; i < colorArray.length; i += 4) {
-            set.add([colorArray[i], colorArray[i+1], colorArray[i+2], colorArray[i+3]]);
+            set.add('rgb(' + colorArray[i] + ', ' + colorArray[i+1] + ', ' + colorArray[i+2] + ')');
         }
 
         return set.toArray();
     };
 
-    var url, server;
+    var serveUpMockPage = function (content) {
+        var port = 8764;
+
+        server = http.createServer(function (_, res) {
+          res.writeHead(200, {'Content-Type': 'text/html'});
+          res.end(content);
+        });
+
+        server.listen(port);
+
+        thingsToClose.push(server);
+
+        return 'http://localhost:' + port;
+    };
 
     beforeEach(function () {
         mockFs({
           'screenshots': {}
         });
 
-        var port = 8764;
-
-        server = http.createServer(function (_, res) {
-          res.writeHead(200, {'Content-Type': 'text/html'});
-          res.end('<html style="background: #008000;"></html>');
-        });
-
-        server.listen(port);
-
-        url = 'http://localhost:' + port;
+        thingsToClose = [];
     });
 
     afterEach(function () {
         mockFs.restore();
 
-        server.close();
+        thingsToClose.forEach(function (thing) {
+            thing.close();
+        });
     });
 
     it("should take screenshot of a given url", function (done) {
-        var green = [0, 128, 0, 255];
+        var green = 'rgb(0, 128, 0)',
+            greenPage = serveUpMockPage('<html style="background: ' + green + ';"></html>');
 
-        visregexp.takeScreenshot(url, function () {
+        visregexp.takeScreenshot(greenPage, function () {
             pngparse.parseFile('screenshots/file.png', function (_, imageData) {
-                var usedColors = collectColors(imageData.data);
+                var usedColors = collectColorsInRgbNotation(imageData.data);
                 expect(usedColors).toEqual([green]);
 
                 done();
