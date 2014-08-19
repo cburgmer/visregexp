@@ -4,7 +4,7 @@
   "description": "Cross-browser visual regression tests in your build pipeline",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node test --captureExceptions"
   },
   "keywords": [
     "CSS",
@@ -13,5 +13,16 @@
     "test"
   ],
   "author": "Christoph Burgmer <christoph.burgmer@gmail.com>",
-  "license": "BSD-2-Clause"
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "jasmine-node": "~1.14",
+    "mock-fs": "~2.3.1",
+    "pngparse": "~2.0.1",
+    "collections": "~1.2.1"
+  },
+  "dependencies": {
+    "selenium-webdriver": "~2.42.1",
+    "selenium-server-standalone-jar": "~2.40.0",
+    "phantomjs": "~1.9.7-15"
+  }
 }
