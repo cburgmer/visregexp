@@ -1,14 +1,14 @@
 var fs = require('fs'),
     mockFs = require('mock-fs'),
     pngparse = require('pngparse'),
-    Set = require("collections/set"),
+    SetCollection = require("collections/set"),
     http = require('http'),
     visregexp = require('../index');
 
 describe("VisRegExp", function () {
 
     var arrayValueSet = function () {
-        return new Set([], function (a, b) {
+        return new SetCollection([], function (a, b) {
             return a.length === b.length && a.filter(function (val, i) {
                 return val !== b[i];
             }).length === 0;
@@ -21,7 +21,7 @@ describe("VisRegExp", function () {
 
         for(i = 0; i < colorArray.length; i += 4) {
             set.add([colorArray[i], colorArray[i+1], colorArray[i+2], colorArray[i+3]]);
-        };
+        }
 
         return set.toArray();
     };
@@ -40,7 +40,7 @@ describe("VisRegExp", function () {
           res.end('<html style="background: #008000;"></html>');
         });
 
-        server.listen(port)
+        server.listen(port);
 
         url = 'http://localhost:' + port;
     });

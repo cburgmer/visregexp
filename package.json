@@ -4,7 +4,7 @@
   "description": "Cross-browser visual regression tests in your build pipeline",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine-node test --captureExceptions"
+    "test": "jshint *.js test && jasmine-node test --captureExceptions"
   },
   "keywords": [
     "CSS",
@@ -18,7 +18,8 @@
     "jasmine-node": "~1.14",
     "mock-fs": "~2.3.1",
     "pngparse": "~2.0.1",
-    "collections": "~1.2.1"
+    "collections": "~1.2.1",
+    "jshint": "~2.5.4"
   },
   "dependencies": {
     "selenium-webdriver": "~2.42.1",
