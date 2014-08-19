@@ -1,0 +1,17 @@
+{
+  "name": "visregexp",
+  "version": "0.0.0",
+  "description": "Cross-browser visual regression tests in your build pipeline",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "CSS",
+    "visual",
+    "regression",
+    "test"
+  ],
+  "author": "Christoph Burgmer <christoph.burgmer@gmail.com>",
+  "license": "BSD-2-Clause"
+}
