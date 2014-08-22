@@ -20,6 +20,7 @@ Yet to be implemented
 - Configurable browser support
 - Sign-off process
 - Test reporter
+- Solve the "state problem", where the build server needs to remember the reference images
 
 Frequently Asked Questions (nobody asked)
 -----------------------------------------
