@@ -19,11 +19,14 @@
     "mock-fs": "~2.3.1",
     "pngparse": "~2.0.1",
     "collections": "~1.2.1",
-    "jshint": "~2.5.4"
+    "jshint": "~2.5.4",
+    "pngjs": "~0.4.0"
   },
   "dependencies": {
-    "selenium-webdriver": "~2.42.1",
+    "canvas": "~1.1.6",
+    "imagediff": "~1.0.7",
+    "phantomjs": "~1.9.7-15",
     "selenium-server-standalone-jar": "~2.40.0",
-    "phantomjs": "~1.9.7-15"
+    "selenium-webdriver": "~2.42.1"
   }
 }

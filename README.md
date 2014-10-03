@@ -15,7 +15,7 @@ Technical decisions
 Yet to be implemented
 ---------------------
 - Take screenshot and save ✓
-- Compare to reference and fail/succeed
+- Compare to reference and fail/succeed ✓
 - Support hover, active styles
 - Configurable browser support
 - Sign-off process
