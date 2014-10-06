@@ -5,7 +5,19 @@ var fs = require('fs'),
     imagediff = require('imagediff'),
     Image = require('canvas').Image;
 
-var renderPageToBuffer = function (url, callback) {
+var hoverOverElement = function (selector, driver) {
+    var action = new webdriver.ActionSequence(driver);
+    action.mouseMove(driver.findElement(webdriver.By.css(selector)));
+    action.perform();
+};
+
+var activateElement = function (selector, driver) {
+    var action = new webdriver.ActionSequence(driver);
+    action.mouseMove(driver.findElement(webdriver.By.css(selector))).mouseDown();
+    action.perform();
+};
+
+var renderPageToBuffer = function (url, options, callback) {
     // TODO don't always start the server and throw it away again
     var server = new SeleniumServer(jar.path, {
       port: 4444
@@ -20,6 +32,13 @@ var renderPageToBuffer = function (url, callback) {
 
     driver.get(url);
 
+    if (options.hover) {
+        hoverOverElement(options.hover, driver);
+    }
+    if (options.active) {
+        activateElement(options.active, driver);
+    }
+
     driver.takeScreenshot().then(function (base64Image) {
         var decodedImage = new Buffer(base64Image, 'base64');
 
@@ -29,7 +48,7 @@ var renderPageToBuffer = function (url, callback) {
 };
 
 var renderPage = function (url, callback) {
-    renderPageToBuffer(url, function (imageBuffer) {
+    renderPageToBuffer(url, {}, function (imageBuffer) {
         var image = new Image();
         image.onload = function () {
             callback(image);
@@ -38,8 +57,8 @@ var renderPage = function (url, callback) {
     });
 };
 
-exports.takeScreenshot = function (url, callback) {
-    renderPageToBuffer(url, function (image) {
+exports.takeScreenshot = function (url, options, callback) {
+    renderPageToBuffer(url, options, function (image) {
         fs.writeFile('screenshots/file.png', image, callback);
     });
 };

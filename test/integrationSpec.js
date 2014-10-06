@@ -89,7 +89,62 @@ describe("VisRegExp", function () {
             'screenshots': {}
         });
 
-        visregexp.takeScreenshot(greenPage, function () {
+        visregexp.takeScreenshot(greenPage, {}, function () {
+            pngparse.parseFile('screenshots/file.png', function (_, imageData) {
+                var usedColors = collectColorsInRgbaNotation(imageData.data);
+                expect(usedColors).toEqual([greenRgba]);
+
+                done();
+            });
+        });
+    });
+
+    it("should take screenshot with hover effect", function (done) {
+        var greenRgba = cssRgba.apply(null, green),
+            greenPage = serveUpMockPage('<html><style>html:hover {background: ' + greenRgba + ';}</style></html>');
+
+        mockFs({
+            'screenshots': {}
+        });
+
+        visregexp.takeScreenshot(greenPage, {hover: 'html'}, function () {
+            pngparse.parseFile('screenshots/file.png', function (_, imageData) {
+                var usedColors = collectColorsInRgbaNotation(imageData.data);
+                expect(usedColors).toEqual([greenRgba]);
+
+                done();
+            });
+        });
+    });
+
+    it("should take screenshot with active effect", function (done) {
+        var greenRgba = cssRgba.apply(null, green),
+            greenPage = serveUpMockPage('<html><style>html:active {background: ' + greenRgba + ';}</style></html>');
+
+        mockFs({
+            'screenshots': {}
+        });
+
+        visregexp.takeScreenshot(greenPage, {active: 'html'}, function () {
+            pngparse.parseFile('screenshots/file.png', function (_, imageData) {
+                var usedColors = collectColorsInRgbaNotation(imageData.data);
+                expect(usedColors).toEqual([greenRgba]);
+
+                done();
+            });
+        });
+    });
+
+    // TODO make this happen
+    xit("should trigger active effect independently of hover", function (done) {
+        var greenRgba = cssRgba.apply(null, green),
+            greenPage = serveUpMockPage('<html><style>* {color: rgba(0,0,0,0);} a:active {background: ' + greenRgba + ';} a:hover {background: red;}</style><a href="#">click me</a></html>');
+
+        mockFs({
+            'screenshots': {}
+        });
+
+        visregexp.takeScreenshot(greenPage, {active: 'a'}, function () {
             pngparse.parseFile('screenshots/file.png', function (_, imageData) {
                 var usedColors = collectColorsInRgbaNotation(imageData.data);
                 expect(usedColors).toEqual([greenRgba]);

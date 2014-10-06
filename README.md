@@ -16,7 +16,7 @@ Yet to be implemented
 ---------------------
 - Take screenshot and save ✓
 - Compare to reference and fail/succeed ✓
-- Support hover, active styles
+- Support hover, active styles ✓ (open: :active without :hover)
 - Configurable browser support
 - Sign-off process
 - Test reporter
