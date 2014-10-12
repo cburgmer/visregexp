@@ -15,12 +15,20 @@ describe("VisRegExp", function () {
         return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ')';
     };
 
-    var collectColorsInRgbaNotation = function (colorArray) {
-        var set = SetCollection(),
+    var readAlpha = function (imageData, offset) {
+        if (imageData.channels === 4) {
+            return imageData.data[offset+3];
+        }
+        return 255;
+    };
+
+    var collectColorsInRgbaNotation = function (imageData) {
+        var colorArray = imageData.data,
+            set = SetCollection(),
             i;
 
-        for(i = 0; i < colorArray.length; i += 4) {
-            set.add(cssRgba(colorArray[i], colorArray[i+1], colorArray[i+2], colorArray[i+3]));
+        for(i = 0; i < colorArray.length; i += imageData.channels) {
+            set.add(cssRgba(colorArray[i], colorArray[i+1], colorArray[i+2], readAlpha(imageData, i)));
         }
 
         return set.toArray();
@@ -91,7 +99,7 @@ describe("VisRegExp", function () {
 
         visregexp.takeScreenshot(greenPage, {}, function () {
             pngparse.parseFile('screenshots/file.png', function (_, imageData) {
-                var usedColors = collectColorsInRgbaNotation(imageData.data);
+                var usedColors = collectColorsInRgbaNotation(imageData);
                 expect(usedColors).toEqual([greenRgba]);
 
                 done();
@@ -109,7 +117,7 @@ describe("VisRegExp", function () {
 
         visregexp.takeScreenshot(greenPage, {hover: 'html'}, function () {
             pngparse.parseFile('screenshots/file.png', function (_, imageData) {
-                var usedColors = collectColorsInRgbaNotation(imageData.data);
+                var usedColors = collectColorsInRgbaNotation(imageData);
                 expect(usedColors).toEqual([greenRgba]);
 
                 done();
@@ -127,7 +135,7 @@ describe("VisRegExp", function () {
 
         visregexp.takeScreenshot(greenPage, {active: 'html'}, function () {
             pngparse.parseFile('screenshots/file.png', function (_, imageData) {
-                var usedColors = collectColorsInRgbaNotation(imageData.data);
+                var usedColors = collectColorsInRgbaNotation(imageData);
                 expect(usedColors).toEqual([greenRgba]);
 
                 done();
@@ -146,7 +154,7 @@ describe("VisRegExp", function () {
 
         visregexp.takeScreenshot(greenPage, {active: 'a'}, function () {
             pngparse.parseFile('screenshots/file.png', function (_, imageData) {
-                var usedColors = collectColorsInRgbaNotation(imageData.data);
+                var usedColors = collectColorsInRgbaNotation(imageData);
                 expect(usedColors).toEqual([greenRgba]);
 
                 done();

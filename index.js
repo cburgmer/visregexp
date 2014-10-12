@@ -27,6 +27,7 @@ var renderPageToBuffer = function (url, options, callback) {
 
     var driver = new webdriver.Builder()
         .usingServer(server.address())
+        // .withCapabilities(webdriver.Capabilities.chrome())
         .withCapabilities(webdriver.Capabilities.phantomjs())
         .build();
 
